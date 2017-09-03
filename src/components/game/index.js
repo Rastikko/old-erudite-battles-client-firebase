@@ -1,9 +1,10 @@
 import Component from 'framework/component';
+import LoginComponent from 'components/login';
 
 require('./style.scss');
 
 /** Class that handles login component functionality. */
-class LoginComponent extends Component {
+class GameComponent extends Component {
     /**
      * Constructor.
      */
@@ -12,8 +13,12 @@ class LoginComponent extends Component {
             template: require('./template.handlebars'),
             className: 'erudite-battles-game-component',
         });
-        console.log('OK!');
+
+        this.element.classList.add('game-container');
+
+        const loginComponent = new LoginComponent();
+        this.element.querySelector('.displayed-view').appendChild(loginComponent.element);
     }
 }
 
-export default LoginComponent;
+export default GameComponent;
