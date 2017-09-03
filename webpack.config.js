@@ -33,7 +33,7 @@ module.exports = {
     },
     resolve: {
         modules: [
-            path.resolve('./src/framework'),
+            path.resolve('./src'),
             path.resolve('./node_modules'),
         ],
     },

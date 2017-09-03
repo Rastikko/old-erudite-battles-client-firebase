@@ -1,4 +1,4 @@
-import Component from 'component';
+import Component from 'framework/component';
 
 require('./style.scss');
 
@@ -12,6 +12,7 @@ class LoginComponent extends Component {
             template: require('./template.handlebars'),
             className: 'erudite-battles-game-component',
         });
+        console.log('OK!');
     }
 }
 

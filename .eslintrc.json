@@ -4,6 +4,7 @@
     "rules": {
       "strict": 0,
       "linebreak-style": "off",
-      "switch-colon-spacing": "off"
+      "switch-colon-spacing": "off",
+      "max-len": ["error", 120]
     }
 }
