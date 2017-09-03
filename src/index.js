@@ -1,6 +1,6 @@
-import {loginManager} from './components/login';
+import LoginComponent from './components/login';
 
-loginManager.setParent(document.querySelector('#game'));
-loginManager.render();
+const loginComponent = new LoginComponent();
+document.querySelector('#game').appendChild(loginComponent.element);
 
 console.log('Done!');

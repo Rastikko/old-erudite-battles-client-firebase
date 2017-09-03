@@ -1,30 +1,18 @@
-const loginTemplate = require('./template.handlebars');
+import Component from 'component';
 
 /** Class that handles login component functionality. */
-class LoginComponentManager {
+class LoginComponent extends Component {
     /**
      * Constructor.
      */
     constructor() {
-        this.className = 'eb-login-component';
-    }
-    /**
-     * Defines the parent element, is required for render.
-     * @param {domNode} domElement - The x value.
-     */
-    setParent(domElement) {
-        this.parent = domElement;
-    }
-
-    /**
-     * Adds the template to the parent.
-     */
-    render() {
-        const loginComponent = document.createElement('div');
-        loginComponent.classList.add(this.className);
-        loginComponent.innerHTML = loginTemplate({name: 'Johan'});
-        this.parent.appendChild(loginComponent);
+        const model = {name: 'Johan'};
+        super({
+            template: require('./template.handlebars'),
+            className: 'erudite-battles-login-component',
+            model: model,
+        });
     }
 }
 
-export let loginManager = new LoginComponentManager();
+export default LoginComponent;

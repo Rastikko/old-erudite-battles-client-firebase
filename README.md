@@ -11,7 +11,6 @@ npm run dev
 
  - Create boilerplate
    - karma (phantomjs?) + mocha + chai
-   - eslint
    - greensock
    - sass
    - boostrap
