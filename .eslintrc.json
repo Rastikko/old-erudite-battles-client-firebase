@@ -1,0 +1,9 @@
+{
+    "extends": "google",
+    "parser": "babel-eslint",
+    "rules": {
+      "strict": 0,
+      "linebreak-style": "off",
+      "switch-colon-spacing": "off"
+    }
+}

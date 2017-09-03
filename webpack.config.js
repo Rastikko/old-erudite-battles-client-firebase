@@ -4,7 +4,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
     },
     module: {
         loaders: [
@@ -12,22 +12,22 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 query: {
-                    presets: ['es2015']
-                }
+                    presets: ['es2015'],
+                },
             },
             {
                 test: /\.handlebars$/,
-                loader: "handlebars-loader"
-            }
-        ]
+                loader: 'handlebars-loader',
+            },
+        ],
     },
     stats: {
-        colors: true
+        colors: true,
     },
     devtool: 'source-map',
     devServer: {
-      contentBase: path.join(__dirname, "dist"),
+      contentBase: path.join(__dirname, 'dist'),
       compress: true,
-      port: 9000
-    }
+      port: 9000,
+    },
 };

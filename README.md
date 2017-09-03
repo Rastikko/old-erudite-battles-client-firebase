@@ -9,9 +9,7 @@ npm run dev
 
 ## TODO:
 
- - [] Create boilerplate
-   - webpack
-   - hotreload
+ - Create boilerplate
    - karma (phantomjs?) + mocha + chai
    - eslint
    - greensock
