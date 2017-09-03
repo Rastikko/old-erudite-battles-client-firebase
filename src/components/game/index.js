@@ -8,11 +8,9 @@ class LoginComponent extends Component {
      * Constructor.
      */
     constructor() {
-        const model = {name: 'Johan'};
         super({
             template: require('./template.handlebars'),
-            className: 'erudite-battles-login-component',
-            model: model,
+            className: 'erudite-battles-game-component',
         });
     }
 }

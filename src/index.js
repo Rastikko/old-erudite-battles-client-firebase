@@ -1,6 +1,6 @@
-import LoginComponent from './components/login';
+import GameComponent from './components/game';
 
-const loginComponent = new LoginComponent();
-document.querySelector('#game').appendChild(loginComponent.element);
+const gameComponent = new GameComponent();
+document.querySelector('#game').appendChild(gameComponent.element);
 
 console.log('Done!');
