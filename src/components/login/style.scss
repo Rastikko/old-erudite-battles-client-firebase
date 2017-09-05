@@ -1,0 +1,14 @@
+@import '~sprite.scss';
+
+.login-logo-container {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.login-logo {
+    width: 40.81%;
+}
+
+.login-button {
+    @include sprite($button);
+}

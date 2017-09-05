@@ -17,14 +17,14 @@ class LoginComponent extends Component {
             model: model,
         });
 
-        this.element.querySelector('.login-btn').addEventListener('click', this.loginClickHandler.bind(this));
+        this.element.querySelector('.login-button').addEventListener('click', this.loginClickHandler.bind(this));
     }
 
     /**
      * loginClickHandler.
      */
     loginClickHandler() {
-        const loginButton = this.element.querySelector('.login-btn');
+        const loginButton = this.element.querySelector('.login-button');
         TweenLite.to(loginButton, 1.5, {width: 250});
     }
 }
