@@ -2,7 +2,7 @@ import Component from 'framework/component';
 
 import {TweenLite} from 'gsap';
 
-require('./style.scss');
+require('./style.styl');
 
 /** Class that handles login component functionality. */
 class LoginComponent extends Component {

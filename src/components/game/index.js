@@ -1,7 +1,7 @@
 import Component from 'framework/component';
 import LoginComponent from 'components/login';
 
-require('./style.scss');
+require('./style.styl');
 
 /** Class that handles login component functionality. */
 class GameComponent extends Component {
