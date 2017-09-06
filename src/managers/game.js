@@ -1,6 +1,7 @@
 import {authService} from 'services/auth';
 import {viewportService} from 'services/viewport';
 import LoginComponent from 'components/login';
+import BattleComponent from 'components/battle';
 /**
     This class will handle the logic that know when and who transition between game phases
     Like for example from login to game, or from game to postgame
@@ -12,6 +13,7 @@ class GameManager {
     constructor() {
         this._transitionMap = new Map();
         this._transitionMap.set('login', LoginComponent);
+        this._transitionMap.set('battle', BattleComponent);
     }
 
     /**
@@ -23,6 +25,10 @@ class GameManager {
         } else {
             this.transitionTo('battle');
         }
+
+        authService.on('authenticated', () => {
+            this.transitionTo('battle');
+        });
     }
 
     /**

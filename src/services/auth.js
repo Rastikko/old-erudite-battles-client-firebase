@@ -9,6 +9,14 @@ class AuthService extends Service {
     isAuthenticated() {
         return false;
     }
+
+    /**
+        Authenticate
+    */
+    login() {
+        // TODO: call firebase
+        this.dispatch('authenticated');
+    }
 }
 
 export let authService = new AuthService();

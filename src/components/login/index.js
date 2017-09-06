@@ -1,3 +1,4 @@
+import {authService} from 'services/auth';
 import Component from 'framework/component';
 
 import {TweenLite} from 'gsap';
@@ -26,6 +27,7 @@ class LoginComponent extends Component {
     loginClickHandler() {
         const loginButton = this.element.querySelector('.login-button');
         TweenLite.to(loginButton, 1.5, {scale: 0.25});
+        authService.login();
     }
 }
 

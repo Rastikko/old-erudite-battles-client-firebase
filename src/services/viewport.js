@@ -15,12 +15,12 @@ class ViewportService extends Service {
         @param {Objet} domElement
     */
     transitionTo(domElement) {
+        // TODO: tween a fancy transition
         if (this.previousView) {
-            // TODO: hide previous view
-        } else {
-            this.previousView = domElement;
-            this.mainContainer.appendChild(domElement);
+            this.mainContainer.removeChild(this.previousView);
         }
+        this.previousView = domElement;
+        this.mainContainer.appendChild(domElement);
     }
 }
 
