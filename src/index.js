@@ -1,6 +1,8 @@
-import GameComponent from './components/game';
+import {viewportService} from 'services/viewport';
+import {gameManager} from 'managers/game';
 
-const gameComponent = new GameComponent();
-document.querySelector('#game').appendChild(gameComponent.element);
+require('utils/global.styl');
 
-console.log('Done!');
+viewportService.setMainContainer(document.querySelector('#game .viewport'));
+
+gameManager.transitionTo('login');

@@ -1,0 +1,7 @@
+background($path, $scale) {
+    background-image: url($path);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: image-size($path)[0] * $scale;
+    height: image-size($path)[1] * $scale;
+}

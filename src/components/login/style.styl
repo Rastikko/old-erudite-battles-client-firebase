@@ -1,10 +1,6 @@
+@import '../../utils/mixins.styl';
 
-background($path) {
-    background-image: url($path);
-    background-repeat: no-repeat;
-    width: image-size($path)[0];
-    height: image-size($path)[1];
-}
+$imagePath = '../../../dist/images/';
 
 .login-logo-container {
     padding-top: 20px;
@@ -15,6 +11,20 @@ background($path) {
     width: 40.81%;
 }
 
+.login-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
 .login-button {
-    background('../../../dist/images/button.png');
+    background($imagePath + 'button.png', 0.25);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 45px;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

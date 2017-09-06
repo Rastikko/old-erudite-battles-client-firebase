@@ -25,7 +25,7 @@ class LoginComponent extends Component {
      */
     loginClickHandler() {
         const loginButton = this.element.querySelector('.login-button');
-        TweenLite.to(loginButton, 1.5, {width: 250});
+        TweenLite.to(loginButton, 1.5, {scale: 0.25});
     }
 }
 

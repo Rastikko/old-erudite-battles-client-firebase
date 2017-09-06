@@ -11,6 +11,11 @@ class Component {
         this.element.innerHTML = content;
         this.element.classList.add(options.className);
     }
+
+    /**
+        Override to define behaviour when the component is going to be destroyed
+    */
+    destroy() {}
 }
 
 export default Component;
