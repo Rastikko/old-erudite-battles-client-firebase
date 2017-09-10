@@ -14,8 +14,12 @@ class Component {
 
     /**
         Override to define behaviour when the component is going to be destroyed
+        @return {Promise}
     */
-    destroy() {}
+    destroy() {
+        this.destroyed = true;
+        return Promise.resolve();
+    }
 }
 
 export default Component;

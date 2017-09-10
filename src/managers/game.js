@@ -36,8 +36,12 @@ class GameManager {
         @param {string} componentName
     */
     transitionTo(componentName) {
-        if (this.currentComponent) {
-            this.currentComponent.destroy();
+        if (this.currentComponent && !this.currentComponent.isDestroyed) {
+            this.currentComponent.destroy().then(() => {
+                delete this.currentComponent;
+                this.transitionTo(componentName);
+            });
+            return;
         }
         const ComponentClass = this._transitionMap.get(componentName);
         const component = new ComponentClass();

@@ -31,10 +31,11 @@ class LoginComponent extends Component {
         Will start transitioning to the next screen
         @return {Promise}
     */
-    transitionPromise() {
+    destroy() {
         return new Promise((resolve) => {
             const logo = this.element.querySelector('.login-logo');
-            TweenLite.to(logo, 0.5, {scale: 1.25});
+            TweenLite.to(logo, 0.5, {scale: 0.8}).eventCallback('onComplete', resolve);
+            this.isDestroyed = true;
         });
     }
 }

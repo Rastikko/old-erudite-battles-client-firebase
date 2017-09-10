@@ -4,18 +4,33 @@
 // $gradient_top = #0c364a;
 // $gradient_bottom = #114969;
 
-body {
+// scale = 0 400px 600px 800px 1050px
+// background: 1600x900 => height is 0.5626 * width
+
+@import '~jeet/jeet.styl';
+@import '~rupture/rupture/index.styl';
+
+aspectRatio = 0.5626;
+
+scale = 0 400px 600px 800px 1050px 1450px 1600px;
+
+body
     color: #67c8ff;
     background-color: #515151;
-}
 
-#game {
-    position: relative;
-    border: 4px solid #011119;
-    background-color: #515151;
-    background-image: url('/images/background.jpg');
-    background-size: contain;
-    width:80vw;
-    height:40vw;
-    margin: 20px auto;
-}
+#game
+    +below(2)
+        width: scale[1];
+        height: (scale[1] * aspectRatio)
+
+    for iterator in (2..6)
+        +above(iterator)
+            center(scale[iterator - 1])
+            height: scale[iterator - 1] * aspectRatio
+
+    margin-top: 20px
+    position: relative
+    border: 4px solid #011119
+    background-color: #515151
+    background-image: url('/images/background.jpg')
+    background-size: contain
