@@ -9,9 +9,13 @@ npm run dev
 
 ## TODO:
 
- - Create basic layout design
  - Create battle design
  - Create factorization minigame design
+ - Strategy for responsive elements
+ - Finish anonymousAuthentication
+ - Strategy to handle animations
+ - Design callback system
+ - Evented can pass variables
 ## Patterns:
 
 Use a DAO to leverage firebase data I/O.

@@ -1,5 +1,5 @@
-import {authService} from 'services/auth';
-import {viewportService} from 'services/viewport';
+import {auth} from 'services/auth';
+import {viewport} from 'services/viewport';
 import LoginComponent from 'components/login';
 import BattleComponent from 'components/battle';
 /**
@@ -19,14 +19,14 @@ class GameManager {
     /**
         Will start triggering the state machine logic
     */
-    initiate() {
-        if (authService.isAuthenticated) {
+    init() {
+        if (auth.isAuthenticated) {
             this.transitionTo('login');
         } else {
             this.transitionTo('battle');
         }
 
-        authService.on('authenticated', () => {
+        auth.on('authenticated', () => {
             this.transitionTo('battle');
         });
     }
@@ -41,7 +41,7 @@ class GameManager {
         }
         const ComponentClass = this._transitionMap.get(componentName);
         const component = new ComponentClass();
-        viewportService.transitionTo(component.element);
+        viewport.transitionTo(component.element);
         this.currentComponent = component;
     }
 }

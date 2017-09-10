@@ -1,4 +1,4 @@
-import {authService} from 'services/auth';
+import {auth} from 'services/auth';
 import Component from 'framework/component';
 
 import {TweenLite} from 'gsap';
@@ -11,23 +11,31 @@ class LoginComponent extends Component {
      * Constructor.
      */
     constructor() {
-        const model = {name: 'Johan'};
         super({
             template: require('./template.handlebars'),
             className: 'erudite-battles-login-component',
-            model: model,
         });
 
-        this.element.querySelector('.login-button').addEventListener('click', this.loginClickHandler.bind(this));
+        const loginButton = this.element.querySelector('.login-button');
+        loginButton.addEventListener('click', this.loginClickHandler.bind(this));
     }
 
     /**
      * loginClickHandler.
      */
     loginClickHandler() {
-        const loginButton = this.element.querySelector('.login-button');
-        TweenLite.to(loginButton, 1.5, {scale: 0.25});
-        authService.login();
+        auth.anonymousAuthentication();
+    }
+
+    /**
+        Will start transitioning to the next screen
+        @return {Promise}
+    */
+    transitionPromise() {
+        return new Promise((resolve) => {
+            const logo = this.element.querySelector('.login-logo');
+            TweenLite.to(logo, 0.5, {scale: 1.25});
+        });
     }
 }
 

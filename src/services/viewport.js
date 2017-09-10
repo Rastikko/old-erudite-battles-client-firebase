@@ -1,7 +1,7 @@
 import Service from 'framework/service';
 
 /** Deals with main components transitions */
-class ViewportService extends Service {
+class Viewport extends Service {
     /**
         Define in which domElement the transitions will happen
         @param {Objet} domElement
@@ -24,4 +24,4 @@ class ViewportService extends Service {
     }
 }
 
-export let viewportService = new ViewportService();
+export let viewport = new Viewport();

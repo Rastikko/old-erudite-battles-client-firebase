@@ -44,5 +44,8 @@
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1",
     "webpack-spritesmith": "^0.3.3"
+  },
+  "dependencies": {
+    "firebase": "^4.3.0"
   }
 }
