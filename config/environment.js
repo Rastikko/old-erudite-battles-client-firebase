@@ -7,6 +7,12 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
+    firebase: {
+        apiKey: 'AIzaSyAVIsm86rkzBaAaX3W1z7-SCbGIzMy_8t4',
+        authDomain: 'erudite-battles.firebaseapp.com',
+        databaseURL: 'https://erudite-battles.firebaseio.com',
+        storageBucket: 'gs://erudite-battles.appspot.com',
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -43,9 +49,7 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
   }
 
-  if (environment === 'production') {
-
-  }
+  // if (environment === 'production') {}
 
   return ENV;
 };
