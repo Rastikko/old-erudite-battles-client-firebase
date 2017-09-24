@@ -13,6 +13,9 @@ module.exports = function(environment) {
         databaseURL: 'https://erudite-battles.firebaseio.com',
         storageBucket: 'gs://erudite-battles.appspot.com',
     },
+    torii: {
+        sessionServiceName: 'session'
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

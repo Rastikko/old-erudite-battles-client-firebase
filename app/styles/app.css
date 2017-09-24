@@ -1,0 +1,48 @@
+.container {
+    padding-top: 20px;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.game-enemy-player {
+    height: 20%;
+}
+
+.game-enemy-field {
+    height: 30%;
+}
+
+.game-hero-field {
+    height: 30%;
+}
+
+.game-hero-player {
+    height: 20%;
+}
+
+.application-container {
+    /*background-color: #C9BEAF;*/
+}
+
+.game-erudite-card {
+    max-width: 200px;
+    position: relative;
+}
+
+.game-erudite-life {
+    position: absolute;
+    font-size: 16px;
+    bottom: 10%;
+    right: 0;
+}
+
+/* TODO: set an id to this fucker */
+body > .ember-view {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
