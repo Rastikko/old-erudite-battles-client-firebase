@@ -1,36 +1,26 @@
-// $border_color = #011119;
-// $background_color = #515151;
-// $font_color = #67c8ff;
-// $gradient_top = #0c364a;
-// $gradient_bottom = #114969;
+@import '~jeet/jeet.styl'
+@import '~rupture/rupture/index.styl'
 
-// scale = 0 400px 600px 800px 1050px
-// background: 1600x900 => height is 0.5626 * width
+@import './variables.styl'
 
-@import '~jeet/jeet.styl';
-@import '~rupture/rupture/index.styl';
-
-aspectRatio = 0.5626;
-
-scale = 0 400px 600px 800px 1050px 1450px 1600px;
+imagePath = '../../images/'
 
 body
-    color: #67c8ff;
-    background-color: #515151;
+    color: fontColor
+    background-color: backgroundColor
 
 #game
-    +below(2)
-        width: scale[1];
-        height: (scale[1] * aspectRatio)
+    +below(responsiveScale[0])
+        width: responsiveScale[0];
+        height: responsiveScale[0] * aspectRatio
 
-    for iterator in (2..6)
-        +above(iterator)
-            center(scale[iterator - 1])
-            height: scale[iterator - 1] * aspectRatio
+    for value in responsiveScale
+        +above(value)
+            center(value)
+            height: value * aspectRatio
 
     margin-top: 20px
     position: relative
-    border: 4px solid #011119
-    background-color: #515151
-    background-image: url('/images/background.jpg')
+    border: 4px solid borderColor
+    background-image: url(imagePath + 'background.jpg')
     background-size: contain

@@ -1,7 +1,28 @@
-background($path, $scale) {
-    background-image: url($path);
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: image-size($path)[0] * $scale;
-    height: image-size($path)[1] * $scale;
-}
+@import '~jeet/jeet.styl'
+@import '~rupture/rupture/index.styl'
+
+@import './variables.styl'
+
+background(path, scale = 1)
+    background-image: url(path)
+    background-repeat: no-repeat
+    background-size: contain
+    background-position:center
+    for value in responsiveScale
+        +above(value)
+            width: image-size(path)[0] * (value / 1600px * scale)
+            height: image-size(path)[1] * (value / 1600px * scale)
+
+button(imagePath)
+    background(imagePath + 'button.png', 0.25)
+    cursor: pointer;
+    font-family: Helvetica, Arial, sans-serif
+    font-size: 45px
+    font-weight: 500
+    text-transform: uppercase
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    for value in responsiveScale
+        +above(value)
+            font-size: 45px * (value / 1600px)

@@ -39,6 +39,7 @@
     "karma-sinon": "^1.0.5",
     "karma-webpack": "^2.0.4",
     "mocha": "^3.5.0",
+    "promise-polyfill": "^6.0.2",
     "rupture": "^0.6.2",
     "style-loader": "^0.18.2",
     "stylus": "^0.54.5",

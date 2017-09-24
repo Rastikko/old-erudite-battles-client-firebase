@@ -38,7 +38,6 @@ module.exports = {
     resolve: {
         modules: [
             path.resolve('./src'),
-            path.resolve('./dist'),
             path.resolve('./node_modules'),
         ],
     },
