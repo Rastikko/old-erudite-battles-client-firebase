@@ -1,53 +1,17 @@
-@import './palette';
-@import './game/game-player';
-
-body {
-    color: $color-text;
-    background: url('/assets/images/circuit-background.jpg');
-    background-size: cover;
-}
-
-.container {
-    padding-top: 20px;
-}
-
-.btn:hover {
-    cursor: pointer;
-}
-
-.game-enemy-field {
-    height: 30%;
-}
-
-.game-hero-field {
-    height: 30%;
-}
-
-.game-hero-player {
-    height: 20%;
-}
-
-.application-container {
-    /*background-color: #C9BEAF;*/
-}
-
-.game-erudite-card {
-    max-width: 200px;
-    position: relative;
-}
-
-.game-erudite-life {
-    position: absolute;
-    font-size: 16px;
-    bottom: 10%;
-    right: 0;
-}
+@import './_palette.scss';
+@import './components/game-player';
+@import './components/game-field';
 
 /* TODO: set an id to this fucker */
 body > .ember-view {
     position: absolute;
+    background-color: $background_blue;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+}
+
+.row, .col {
+    height: 100%;
 }
