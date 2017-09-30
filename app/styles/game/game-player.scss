@@ -1,0 +1,48 @@
+@import '../_palette.scss';
+
+.game-player {
+    height: 20%;
+    padding-top: 20px;
+}
+
+.game-player .col {
+    display: flex;
+    justify-content: center;
+}
+
+.game-player-container {
+    justify-content: center;
+    transform: skew(2deg);
+    border: 3px solid $color-primary;
+    max-width: 150px;
+
+    .game-player-image {
+    }
+
+    .game-player-name {
+        position: absolute;
+        width: 140%;
+        top: -4%;
+        left: -20%;
+        font-size: 20px;
+        text-align: center;
+        text-shadow: $text-shadow;
+        background-color: $color-primary;
+        border: 2px solid $color-almost-black;
+        background: linear-gradient($color-primary, $color-secondary, $color-primary);
+    }
+
+    .game-player-life {
+        position: absolute;
+        background-color: $color-red;
+        font-size: 24px;
+        width: 30%;
+        text-align: center;
+        transform: none;
+        bottom: 0;
+        right: 0;
+        text-shadow: $text-shadow;
+        border: 2px solid $color-almost-black;
+    }
+
+}

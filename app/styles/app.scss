@@ -1,13 +1,18 @@
+@import './palette';
+@import './game/game-player';
+
+body {
+    color: $color-text;
+    background: url('/assets/images/circuit-background.jpg');
+    background-size: cover;
+}
+
 .container {
     padding-top: 20px;
 }
 
 .btn:hover {
     cursor: pointer;
-}
-
-.game-enemy-player {
-    height: 20%;
 }
 
 .game-enemy-field {
