@@ -1,6 +1,7 @@
 @import './_palette.scss';
+@import './components/game-player-field';
 @import './components/game-player';
-@import './components/game-field';
+@import './components/game-battle-field';
 
 /* TODO: set an id to this fucker */
 body > .ember-view {
@@ -12,6 +13,6 @@ body > .ember-view {
     left: 0;
 }
 
-.row, .col {
+.application-container {
     height: 100%;
 }
