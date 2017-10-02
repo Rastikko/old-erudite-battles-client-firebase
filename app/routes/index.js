@@ -1,16 +1,22 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+    userId: Ember.computed.readOnly('session.currentUser.uid'),
+
     beforeModel: function() {
         if (this.get('session.currentUser.uid')) {
-          // TODO: go to lobby
-        } else {
-          this.transitionTo('login');
+          return this.checkAndTransitionToPlayerCreation();
         }
+        this.transitionTo('login');
     },
-    actions: {
-        findMatch: function() {
-            this.transitionTo('game');
-        }
+
+    model: function() {
+        return this.store.findRecord('player', this.get('userId'));
+    },
+
+    checkAndTransitionToPlayerCreation() {
+        return this.store
+            .findRecord('player', this.get('userId'))
+            .catch(() => this.transitionTo('create-player'));
     }
 });

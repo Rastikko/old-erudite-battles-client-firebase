@@ -1,3 +1,7 @@
-<div class="login-buttons text-center">
+{{#if inGameState}}
+    <div>Transition to game</div>
+{{else if findMatchState}}
+    <div>Finding Match..</div>
+{{else}}
     <div type="button" class="btn btn-lg btn-primary" {{action "findMatch"}}>Find Match!</div>
-</div>
+{{/if}}

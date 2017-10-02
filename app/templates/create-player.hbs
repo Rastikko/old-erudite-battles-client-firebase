@@ -1,0 +1,10 @@
+<h1>Welcome to Eurudite Battles</h1>
+
+<form>
+  <div class="form-group">
+    <label for="InputUsername">Username</label>
+    {{input type="text" class="form-control" id="InputUsername" aria-describedby="emailHelp" placeholder="Enter Username" value=username}}
+    <small id="emailHelp" class="form-text text-muted">This will be seen by other players</small>
+  </div>
+  <button type="submit" class="btn btn-primary" {{action 'createPlayer' username}}>Submit</button>
+</form>
