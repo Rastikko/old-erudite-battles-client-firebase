@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
     inGameState: Ember.computed('model.state', function() {
         // it will side effect a transition to game
         if (this.get('model.state') === IN_GAME_STATE) {
-            this.transitionToRoute('game');
+            this.transitionToRoute('game', this.get('model.gameId'));
             return true;
         }
         return false;
