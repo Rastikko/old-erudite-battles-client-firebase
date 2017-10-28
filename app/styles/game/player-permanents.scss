@@ -1,0 +1,36 @@
+.game-player-permanents-component {
+    flex: 1;
+
+    .game-erudite-col {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &.is-hero {
+        margin-top: 2%;
+
+        .game-player-erudite-component {
+            order: 1;
+        }
+        .game-player-erudite-barrier-component {
+            order: 0;
+        }
+    }
+
+    &.is-enemy {
+
+        margin-bottom: 2%;
+
+        .col {
+            justify-content: flex-end;
+        }
+
+        .game-player-erudite-component {
+            order: 0;
+        }
+
+        .game-player-erudite-barrier-component {
+            order: 1;
+        }
+    }
+}

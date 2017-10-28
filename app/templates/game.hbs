@@ -1,8 +1,9 @@
-<div class="game h-100">
-    {{game/player-navigation player=enemyPlayer}}
-    {{game/player-cards player=enemyPlayer}}
-    {{game/player-permanents player=enemyPlayer}}
-    {{game/player-permanents player=heroPlayer}}
-    {{game/player-cards player=heroPlayer}}
-    {{game/player-navigation player=heroPlayer}}
+<div class="game">
+    {{game/player-navigation gamePlayer=enemyPlayer isHero=false}}
+    {{game/player-cards gamePlayer=enemyPlayer isHero=false}}
+    {{game/player-permanents gamePlayer=enemyPlayer isHero=false}}
+
+    {{game/player-permanents gamePlayer=heroPlayer  isHero=true}}
+    {{game/player-cards gamePlayer=heroPlayer  isHero=true}}
+    {{game/player-navigation gamePlayer=heroPlayer  isHero=true}}
 </div>

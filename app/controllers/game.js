@@ -1,11 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    gamePlayers: Ember.computed.readOnly('model.gamePlayers', function() {
-        return this.get('model.gamePlayers');
-    }),
-
-    enemyPlayer: Ember.computed.filter('model.gamePlayers.@each.player', function() {
+    enemyPlayer: Ember.computed('model.gamePlayers.@each.player', function() {
         const gamePlayers = this.get('model.gamePlayers');
 
         return gamePlayers.find((gamePlayer) => {
@@ -13,7 +9,7 @@ export default Ember.Controller.extend({
         });
     }),
 
-    heroPlayer: Ember.computed.filter('model.gamePlayers.@each.player', function() {
+    heroPlayer: Ember.computed('model.gamePlayers.@each.player', function() {
         const gamePlayers = this.get('model.gamePlayers');
 
         return gamePlayers.find((gamePlayer) => {
