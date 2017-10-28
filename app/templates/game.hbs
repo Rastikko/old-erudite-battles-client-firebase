@@ -1,14 +1,8 @@
 <div class="game h-100">
-{{game/player-navigation}}
-
-{{game/player-field}}
-{{game/player-field}}
-
-{{game/player-navigation}}
+    {{game/player-navigation player=enemyPlayer}}
+    {{game/player-cards player=enemyPlayer}}
+    {{game/player-permanents player=enemyPlayer}}
+    {{game/player-permanents player=heroPlayer}}
+    {{game/player-cards player=heroPlayer}}
+    {{game/player-navigation player=heroPlayer}}
 </div>
-
-{{log gamePlayers}}
-
-{{#each gamePlayers as |gamePlayer|}}
-    {{log gamePlayer.gameErudites}}
-{{/each}}
