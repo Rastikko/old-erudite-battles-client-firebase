@@ -8,8 +8,6 @@ export default Ember.Controller.extend({
     noneState: Ember.computed.equal('model.state', NONE_STATE),
     findMatchState: Ember.computed.equal('model.state', FIND_MATCH_STATE),
     inGameState: Ember.computed('model.state', 'model.game.id', function() {
-        console.log('inGameState model.game',  this.get('model.game'));
-        console.log('inGameState model.game.id',  this.get('model.game.id'));
         // it will side effect a transition to game
         if (this.get('model.state') === IN_GAME_STATE && this.get('model.game.id')) {
             this.transitionToRoute('game', this.get('model.game.id'));

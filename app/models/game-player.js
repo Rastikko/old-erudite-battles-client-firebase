@@ -11,5 +11,6 @@ export default DS.Model.extend({
     deckCards: DS.hasMany('card'),
     handCards: DS.hasMany('card'),
     player: DS.belongsTo('player'),
-    game: DS.belongsTo('game')
+    // TODO: investigate why adding this reference breaks the data
+    // game: DS.belongsTo('game')
 });
