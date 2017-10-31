@@ -35,7 +35,7 @@ export default Ember.Controller.extend({
         const phaseType = this.get('model.gamePhase.gamePhaseType');
 
         if (phaseType && phaseType !== this.get('_oldGamePhaseType')) {
-            this.get('commander').setPhase(this.get('model.gamePhase.gamePhaseType'));
+            this.get('commander').setPhase(this.get('model.gamePhase'));
             this.set('_oldGamePhaseType', phaseType);
         }
         return this.get('model.gamePhase.gamePhaseType');

@@ -15,7 +15,7 @@ export default Ember.Service.extend({
 
     setPhase: function(phase) {
         // TODO manage the full phase
-        if (phase === 'INITIAL_DRAW') {
+        if (phase.get('gamePhaseType') === 'INITIAL_DRAW') {
             this.enqueueCommand('DRAW_CARD');
             this.enqueueCommand('END_PHASE');
             // check if we already have draw any cards in the phase.
@@ -62,6 +62,8 @@ export default Ember.Service.extend({
     // TODO: create game service and observe the right properties to trigger a checkAndCreateCommand method
     createCommand: function(commandObject) {
         const newCommand = this.get('store').createRecord('gameCommand', commandObject);
-        newCommand.save();
+        newCommand.save().then(() => {
+            this.get('queue').removeObject(this.get('queue.0'));
+        });
     }
 });
