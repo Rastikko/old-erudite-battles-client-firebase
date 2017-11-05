@@ -16,7 +16,7 @@ export default Ember.Service.extend({
 
         if (phase === 'INITIAL_DRAW' && this.get('_previousPhase') !== 'phase') {
             this.enqueueCommand('DRAW_CARD');
-            this.enqueueCommand('END_PHASE');
+            // this.enqueueCommand('END_PHASE');
             // check if we already have draw any cards in the phase.
             // wait until the last card was resolved
             // once enough cards has been resolved then finish phase.

@@ -1,0 +1,8 @@
+.game-card-component {
+    max-width: 20%;
+    cursor: pointer;
+
+    &:hover {
+        z-index: 1;
+    }
+}

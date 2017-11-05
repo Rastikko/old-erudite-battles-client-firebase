@@ -1,3 +1,8 @@
+@import "./game-navigation.scss";
+@import "./game-field.scss";
+@import "./game-hand.scss";
+@import "./game-card.scss";
+
 .game {
     display: flex;
     flex-direction: column;

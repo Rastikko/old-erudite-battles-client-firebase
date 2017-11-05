@@ -1,5 +1,5 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-    classNames: ['game-player-erudite-component', 'card'],
+    classNames: ['game-card-component', 'card'],
 });

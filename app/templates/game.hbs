@@ -1,11 +1,6 @@
 <div class="game">
-    {{game/player-navigation gamePlayer=game.enemyPlayer isHero=false}}
-    {{game/player-cards gamePlayer=game.enemyPlayer isHero=false}}
-    {{game/player-permanents gamePlayer=game.enemyPlayer isHero=false}}
-
-    {{game.phaseType}}
-
-    {{game/player-permanents gamePlayer=game.heroPlayer isHero=true}}
-    {{game/player-cards gamePlayer=game.heroPlayer isHero=true}}
-    {{game/player-navigation gamePlayer=game.heroPlayer isHero=true}}
+    {{game-navigation gamePlayer=game.enemyPlayer}}
+    {{game-field}}
+    {{game-field}}
+    {{game-navigation gamePlayer=game.heroPlayer}}
 </div>

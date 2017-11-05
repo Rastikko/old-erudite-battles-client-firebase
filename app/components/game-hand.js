@@ -1,5 +1,5 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-    classNames: ['game-player-erudite-barrier-component'],
+    classNames: ['game-hand-component', 'card-deck'],
 });
