@@ -1,0 +1,16 @@
+.game-erudite-component {
+    width: 25%;
+    margin: 20px;
+
+    .card-header {
+        display: flex;
+
+        .erudite-attribute {
+            flex-grow: 0.2;
+        }
+
+        .erudite-attack, .erudite-barrier {
+            flex-grow: 0.4;
+        }
+    }
+}

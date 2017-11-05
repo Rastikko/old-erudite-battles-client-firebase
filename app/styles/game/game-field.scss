@@ -1,3 +1,7 @@
 .game-field-component {
+    width: 100%;
     flex-grow: 0.25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
