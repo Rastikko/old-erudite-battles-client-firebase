@@ -1,11 +1,11 @@
 <div class="game">
-    {{game/player-navigation gamePlayer=enemyPlayer isHero=false}}
-    {{game/player-cards gamePlayer=enemyPlayer isHero=false}}
-    {{game/player-permanents gamePlayer=enemyPlayer isHero=false}}
+    {{game/player-navigation gamePlayer=game.enemyPlayer isHero=false}}
+    {{game/player-cards gamePlayer=game.enemyPlayer isHero=false}}
+    {{game/player-permanents gamePlayer=game.enemyPlayer isHero=false}}
 
-    {{phaseType}}
+    {{game.phaseType}}
 
-    {{game/player-permanents gamePlayer=heroPlayer  isHero=true}}
-    {{game/player-cards gamePlayer=heroPlayer  isHero=true}}
-    {{game/player-navigation gamePlayer=heroPlayer  isHero=true}}
+    {{game/player-permanents gamePlayer=game.heroPlayer isHero=true}}
+    {{game/player-cards gamePlayer=game.heroPlayer isHero=true}}
+    {{game/player-navigation gamePlayer=game.heroPlayer isHero=true}}
 </div>

@@ -3,43 +3,31 @@ import Ember from 'ember';
 export default Ember.Service.extend({
 
     store: Ember.inject.service(),
-
-    game: null,
-    phase: null,
-    hero: null,
-    currentCommand: null,
+    game: Ember.inject.service(),
 
     queue: [],
 
-    // TODO: maybe instead of set and rely on controller we can fetch from store directly
+    _previousPhase: '',
 
-    setPhase: function(phase) {
-        // TODO manage the full phase
-        if (phase.get('gamePhaseType') === 'INITIAL_DRAW') {
+    hero: Ember.computed.readOnly('game.heroPlayer'),
+
+    phase: Ember.computed('game.phaseType', function() {
+        const phase = this.get('game.phaseType');
+
+        if (phase === 'INITIAL_DRAW' && this.get('_previousPhase') !== 'phase') {
             this.enqueueCommand('DRAW_CARD');
             this.enqueueCommand('END_PHASE');
             // check if we already have draw any cards in the phase.
             // wait until the last card was resolved
             // once enough cards has been resolved then finish phase.
+            this.set('_previousPhase', phase);
         }
-        this.set('phase', phase);
-    },
-
-    setHeroGamePlayer: function(hero) {
-        this.set('hero', hero)
-    },
-
-    setGame: function(game) {
-        this.set('game', game);
-    },
-
-    enqueueCommand: function(command) {
-        this.queue.push(command);
-    },
+        return phase;
+    }),
 
     nextCommandObject: Ember.computed('queue.[]', 'game', 'hero', 'phase', function() {
         const queue = this.get('queue');
-        const game = this.get('game');
+        const game = this.get('game.model');
         const phase = this.get('phase');
         const hero = this.get('hero');
 
@@ -59,7 +47,6 @@ export default Ember.Service.extend({
         }
     })),
 
-    // TODO: create game service and observe the right properties to trigger a checkAndCreateCommand method
     createCommand: function(commandObject) {
         const newCommand = this.get('store').createRecord('gameCommand', commandObject);
         newCommand.save().then(() => {
