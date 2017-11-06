@@ -7,8 +7,6 @@ export default Ember.Service.extend({
 
     queue: [],
 
-    _previousPhase: '',
-
     animationInProgress: false,
 
     hero: Ember.computed.readOnly('game.heroPlayer'),
@@ -29,30 +27,36 @@ export default Ember.Service.extend({
 
     phase: Ember.computed.readOnly('game.model.gamePhase'),
 
-    nexCommand: Ember.computed('queue.[]', 'game.model.gamePhase.gameCommands.[]', function() {
-        const queue = this.get('queue');
+    nonResolvedCommands: Ember.computed('game.model.gamePhase.gameCommands.[]', 'game.model.gamePhase.gameCommands.@each.resolved', function() {
         const gameCommands = this.get('game.model.gamePhase.gameCommands');
+        return gameCommands && gameCommands.filterBy('resolved', false);
+    }),
 
-        if (queue && queue[0] && gameCommands && gameCommands.get('length') === 0) {
+    waitigToResolveCommand: Ember.computed.gt('nonResolvedCommands.length', 0),
+
+    nexCommand: Ember.computed('queue.[]', 'waitigToResolveCommand', function() {
+        const queue = this.get('queue');
+        const waitigToResolveCommand = this.get('waitigToResolveCommand');
+
+        // TODO:
+        // Check if there is an unresolved command
+        // Check if there is a resolved unique commandvc
+        if (queue && queue[0] && !waitigToResolveCommand) {
             return queue && queue[0];
         }
     }),
 
-    nextCommandObject: Ember.computed('nexCommand', 'game', 'hero', 'phase', 'phaseType', 'animationInProgress', function() {
+    nextCommandObject: Ember.computed('nexCommand', 'game', 'hero', 'phase', 'animationInProgress', function() {
         const nexCommand = this.get('nexCommand');
         const game = this.get('game.model');
         const phase = this.get('phase');
         const hero = this.get('hero');
         const animationInProgress = this.get('animationInProgress');
 
-
-        // TODO: do something with this
-        const phaseType = this.get('phaseType');
-        // debugger;
-
         if(nexCommand && game && phase && hero && !animationInProgress) {
             return {
                 gameCommandType: nexCommand,
+                resolved: false,
                 gamePhase: phase,
                 gamePlayer: hero,
                 game: game,
@@ -71,7 +75,6 @@ export default Ember.Service.extend({
         const gamePhasePromise = this.get('store').findRecord('gamePhase', this.get('nextCommandObject.gamePhase.id'));
         const nextCommandObject = this.get('nextCommandObject');
         gamePhasePromise.then(gamePhase => {
-            // check if the command is already been dispatched
             this.createCommand(nextCommandObject, gamePhase);
         });
         this.get('queue').removeAt(0);
