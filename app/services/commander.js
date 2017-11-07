@@ -11,25 +11,12 @@ export default Ember.Service.extend({
 
     hero: Ember.computed.readOnly('game.heroPlayer'),
 
-    // we should create a phaser service to handle this kind of stuff
-    phaseType: Ember.computed('game.phaseType', function() {
-        const phaseType = this.get('game.phaseType');
-
-        if (phaseType === 'INITIAL_DRAW' && this._previousPhase !== phaseType) {
-            this.enqueueCommand('DRAW_CARD');
-            // check if we already have draw any cards in the phaseType.
-            // wait until the last card was resolved
-            // once enough cards has been resolved then finish phaseType.
-            this._previousPhase = phaseType;
-        }
-        return phaseType;
-    }),
-
+    gameCommands: Ember.computed.readOnly('game.model.gamePhase.gameCommands'),
     phase: Ember.computed.readOnly('game.model.gamePhase'),
 
-    nonResolvedCommands: Ember.computed('game.model.gamePhase.gameCommands.[]', 'game.model.gamePhase.gameCommands.@each.resolved', function() {
-        const gameCommands = this.get('game.model.gamePhase.gameCommands');
-        return gameCommands && gameCommands.filterBy('resolved', false);
+    nonResolvedCommands: Ember.computed('gameCommands.isFullfiled', 'gameCommands.[]', 'gameCommands.@each.resolved', function() {
+        const gameCommands = this.get('gameCommands');
+        return gameCommands && gameCommands.get('isFullfiled') && gameCommands.filterBy('resolved', false);
     }),
 
     waitigToResolveCommand: Ember.computed.gt('nonResolvedCommands.length', 0),
@@ -37,7 +24,6 @@ export default Ember.Service.extend({
     nexCommand: Ember.computed('queue.[]', 'waitigToResolveCommand', function() {
         const queue = this.get('queue');
         const waitigToResolveCommand = this.get('waitigToResolveCommand');
-
         // TODO:
         // Check if there is an unresolved command
         // Check if there is a resolved unique commandvc
@@ -64,8 +50,8 @@ export default Ember.Service.extend({
         }
     }),
 
-    newCommandReady: Ember.on('init', Ember.observer('nextCommandObject', function() {
-        // this.get('nextCommandObject');
+    newCommandReady: Ember.on('init', Ember.observer('nextCommandObject.gameCommandType', function() {
+        console.log('newCommandReady: ', this.get('nextCommandObject.gameCommandType'));
         if (this.get('nextCommandObject')) {
             Ember.run.throttle(this, this.checkAndTriggerNextCommand, 100);
         }

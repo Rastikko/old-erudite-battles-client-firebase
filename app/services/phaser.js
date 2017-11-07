@@ -39,11 +39,12 @@ export default Ember.Service.extend({
         });
     },
 
-    isCommandAlreadyDispatched: function(gameCommandType) {
+    isCommandNotDispatched: function(gameCommandType) {
         const gameCommandsPromises = this.getPhaseCommandsPromise(this.get('game.model.gamePhase.id'));
 
         return gameCommandsPromises.then(gameCommands => {
             gameCommands.forEach(gameCommand => {
+                // TODO: get only the ones from the player
                 if (gameCommandType === gameCommand.get('gameCommandType')) {
                     throw 'The command was already dispatched';
                 }
@@ -51,15 +52,21 @@ export default Ember.Service.extend({
         });
     },
 
+    dispatchNewCommand(gameCommandType) {
+        this.isCommandNotDispatched(gameCommandType).then(() => {
+            this.get('commander').enqueueCommand(gameCommandType);
+        });
+    },
+
     handleNewPhaseType: function(phaseType) {
         if (phaseType === 'INITIAL_DRAW') {
-            this.isCommandAlreadyDispatched('DRAW_CARD').then(() => {
-                this.get('commander').enqueueCommand('DRAW_CARD');
-            });
+            this.dispatchNewCommand('DRAW_CARD');
+            this.dispatchNewCommand('END_PHASE');
+        }
 
-            this.isCommandAlreadyDispatched('END_PHASE').then(() => {
-                this.get('commander').enqueueCommand('END_PHASE');
-            });
+        if (phaseType === 'GATHER_RESOURCE') {
+            this.dispatchNewCommand('GATHER_RESOURCE');
+            this.dispatchNewCommand('END_PHASE');
         }
     }
 
