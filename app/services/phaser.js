@@ -6,17 +6,10 @@ export default Ember.Service.extend({
     game: Ember.inject.service(),
     commander: Ember.inject.service(),
 
+    _previousPhaseType: undefined,
+
     // we should create a phaser service to handle this kind of stuff
-    phaseType: Ember.computed('game.phaseType', 'game.model.gamePhase.id', function() {
-        const gamePhaseId = this.get('game.model.gamePhase.id');
-        const phaseType = this.get('game.phaseType');
-
-        if (!gamePhaseId) {
-            return;
-        }
-
-        return phaseType;
-    }),
+    phaseType: Ember.computed.readOnly('game.phaseType'),
 
     onPhaseChange: Ember.on('init', Ember.observer('phaseType', function() {
         // this.get('nextCommandObject');
@@ -54,7 +47,13 @@ export default Ember.Service.extend({
 
     dispatchNewCommand(gameCommandType) {
         this.isCommandNotDispatched(gameCommandType).then(() => {
-            this.get('commander').enqueueCommand(gameCommandType);
+            this.get('commander').enqueueCommand({
+                gameCommandType: gameCommandType,
+                gamePhase: this.get('game.model.gamePhase'),
+                resolved: false,
+                game: this.get('game'),
+                gamePlayer: this.get('game.heroPlayer')
+            });
         });
     },
 
