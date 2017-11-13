@@ -3,24 +3,56 @@ import Ember from 'ember';
 export default Ember.Service.extend({
 
     store: Ember.inject.service(),
-    game: Ember.inject.service(),
     commander: Ember.inject.service(),
-
-    _previousPhaseType: undefined,
+    phaseId: null,
+    gamePlayer: null,
 
     // we should create a phaser service to handle this kind of stuff
-    phaseType: Ember.computed.readOnly('game.phaseType'),
+    // phaseType: Ember.computed.readOnly('game.phaseType'),
 
-    onPhaseChange: Ember.on('init', Ember.observer('phaseType', function() {
-        // this.get('nextCommandObject');
-        const phaseType = this.get('phaseType');
-        if (phaseType !== this._previousPhaseType) {
-            this.handleNewPhaseType(phaseType)
-            this._previousPhaseType = phaseType;
+    setPhase: function(phaseId, gamePlayer) {
+        if (this.phaseId === phaseId) {
+            return;
         }
-    })),
+        this.phaseId = phaseId;
+        this.gamePlayer = gamePlayer;
+        this._handleNewPhase(phaseId);
+    },
 
-    getPhaseCommandsPromise: function(gamePhaseId) {
+    _handleNewPhase: function(phaseId) {
+        this._getPhaseAndCommandsPromise(phaseId).then((phaseAndCommands) => {
+            console.log('phaseAndCommands', phaseAndCommands);
+            console.log('gamePhaseType', phaseAndCommands.phase.get('gamePhaseType') );
+
+            if (phaseAndCommands.phase.get('gamePhaseType') === 'INITIAL_DRAW') {
+                this._dispatchNewCommand('DRAW_CARD', phaseAndCommands);
+                this._dispatchNewCommand('END_PHASE', phaseAndCommands);
+            }
+
+            // if (phaseType === 'GATHER_RESOURCE') {
+            //     this.dispatchNewCommand('GATHER_RESOURCE');
+            //     this.dispatchNewCommand('END_PHASE');
+            // }
+
+        });
+    },
+
+    _dispatchNewCommand(commandType, phaseAndCommands) {
+        const dispatchedCommandTypes = phaseAndCommands.commands.map(command => command.get('gameCommandType'));
+        const commandAlreadyDispatched = dispatchedCommandTypes.includes(commandType);
+        if (commandAlreadyDispatched) {
+            return;
+        }
+        this.get('commander').enqueueCommand({
+            gameCommandType: commandType,
+            gamePhase: phaseAndCommands.phase,
+            resolved: false,
+            game: phaseAndCommands.phase.get('game'),
+            gamePlayer: this.gamePlayer
+        });
+    },
+
+    _getPhaseAndCommandsPromise: function(gamePhaseId) {
         const gamePhasePromise = this.get('store').findRecord('gamePhase', gamePhaseId);
 
         return gamePhasePromise.then(gamePhase => {
@@ -28,45 +60,12 @@ export default Ember.Service.extend({
                 return this.get('store').findRecord('gameCommand', gameCommand.get('id'));
             });
             /*eslint no-undef: "off"*/
-            return Promise.all(gameCommandsPromises);
-        });
-    },
-
-    isCommandNotDispatched: function(gameCommandType) {
-        const gameCommandsPromises = this.getPhaseCommandsPromise(this.get('game.model.gamePhase.id'));
-
-        return gameCommandsPromises.then(gameCommands => {
-            gameCommands.forEach(gameCommand => {
-                // TODO: get only the ones from the player
-                if (gameCommandType === gameCommand.get('gameCommandType')) {
-                    throw 'The command was already dispatched';
-                }
-            })
-        });
-    },
-
-    dispatchNewCommand(gameCommandType) {
-        this.isCommandNotDispatched(gameCommandType).then(() => {
-            this.get('commander').enqueueCommand({
-                gameCommandType: gameCommandType,
-                gamePhase: this.get('game.model.gamePhase'),
-                resolved: false,
-                game: this.get('game'),
-                gamePlayer: this.get('game.heroPlayer')
+            return Promise.all(gameCommandsPromises).then(gameCommands => {
+                return {
+                    phase: gamePhase,
+                    commands: gameCommands
+                };
             });
         });
-    },
-
-    handleNewPhaseType: function(phaseType) {
-        if (phaseType === 'INITIAL_DRAW') {
-            this.dispatchNewCommand('DRAW_CARD');
-            this.dispatchNewCommand('END_PHASE');
-        }
-
-        if (phaseType === 'GATHER_RESOURCE') {
-            this.dispatchNewCommand('GATHER_RESOURCE');
-            this.dispatchNewCommand('END_PHASE');
-        }
     }
-
 });

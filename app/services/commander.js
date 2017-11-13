@@ -3,53 +3,64 @@ import Ember from 'ember';
 export default Ember.Service.extend({
 
     store: Ember.inject.service(),
-    game: Ember.inject.service(),
 
+    currentCommandInProgress: null,
+    gamePlayer: null,
     queue: [],
-    previousCommand: null,
 
-    waitingForPreviousCommand: Ember.computed('previousCommand', 'previousCommand.resolved', function() {
-        if (!this.get('previousCommand') || this.get('previousCommand.resolved')) {
-            return false;
+    enqueueCommand(command) {
+        console.log('enqueueCommand command: ', command);
+        this.gamePLayer = command.gamePLayer;
+        this.queue.push(command);
+        if (this.queue.length === 1) {
+            this._processQueue();
         }
-        return true;
-    }),
-
-    nexCommand: Ember.computed('queue.[]', 'waitingForPreviousCommand', function() {
-        if (this.get('queue.length') && !this.get('waitingForPreviousCommand')) {
-            return this.get('queue.0')
-        }
-    }),
-
-    newCommandReady: Ember.on('init', Ember.observer('nexCommand', function() {
-        const nextCommand = this.get('nexCommand');
-        if (nextCommand) {
-            this.checkAndTriggerNextCommand(nextCommand);
-            this.set('previousCommand', { resolve: false });
-        }
-    })),
-
-    enqueueCommand: function(command) {
-        // console.log('enqueueCommand command: ', command);
-        this.get('queue').pushObject(command);
     },
 
-    checkAndTriggerNextCommand: function(command) {
-        const gamePhasePromise = this.get('store').findRecord('gamePhase', command.gamePhase.get('id'));
-        gamePhasePromise.then(gamePhase => {
-            this.createCommand(command, gamePhase);
-        });
+    _processQueue() {
+        this
+        ._checkCommands()
+        .then(this._dequeueNextCommand.bind(this));
     },
 
-    createCommand: function(command, gamePhase) {
+    _dequeueNextCommand() {
+        const nextCommand = this.queue.shift();
+        nextCommand && this._createCommand(nextCommand)
+    },
+
+    _checkCommands() {
+        if (this.currentCommandInProgress) {
+            return Promise.reject('Command already in progress');
+        }
+        // TODO: check if there is some unresolved command hanging there
+        return Promise.resolve();
+    },
+
+    _checkCommandInProgress() {
+        Ember.run.later(this, () => {
+            const commandPromise = this.get('store').findRecord('gameCommand', this.currentCommandInProgress);
+            commandPromise.then(command => {
+                if (command.get('resolved')) {
+                    this.currentCommandInProgress = null,
+                    this._processQueue();
+                } else {
+                    this._checkCommandInProgress();
+                }
+            });
+        }, 100);
+    },
+
+    _createCommand: function(command) {
         const newCommand = this.get('store').createRecord('gameCommand', command);
-        gamePhase.get('gameCommands').addObject(newCommand);
+        command.gamePhase.get('gameCommands').addObject(newCommand);
 
         newCommand.save().then(() => {
-            gamePhase.save();
+            command.gamePhase.save();
         });
 
-        this.set('previousCommand', newCommand);
-        this.get('queue').removeAt(0);
+        console.log("newCommand.get('id')!!!", newCommand.get('id'));
+
+        this.currentCommandInProgress = newCommand.get('id');
+        this._checkCommandInProgress();
     }
 });
