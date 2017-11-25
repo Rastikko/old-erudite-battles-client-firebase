@@ -9,7 +9,6 @@ export default Ember.Service.extend({
     queue: [],
 
     enqueueCommand(command) {
-        console.log('enqueueCommand command: ', command);
         this.gamePLayer = command.gamePLayer;
         this.queue.push(command);
         if (this.queue.length === 1) {
@@ -18,9 +17,8 @@ export default Ember.Service.extend({
     },
 
     _processQueue() {
-        this
-        ._checkCommands()
-        .then(this._dequeueNextCommand.bind(this));
+        const dequeueCommand = this._dequeueNextCommand.bind(this);
+        this._checkCommands().then(dequeueCommand);
     },
 
     _dequeueNextCommand() {
@@ -57,8 +55,6 @@ export default Ember.Service.extend({
         newCommand.save().then(() => {
             command.gamePhase.save();
         });
-
-        console.log("newCommand.get('id')!!!", newCommand.get('id'));
 
         this.currentCommandInProgress = newCommand.get('id');
         this._checkCommandInProgress();

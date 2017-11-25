@@ -7,65 +7,62 @@ export default Ember.Service.extend({
     phaseId: null,
     gamePlayer: null,
 
-    // we should create a phaser service to handle this kind of stuff
-    // phaseType: Ember.computed.readOnly('game.phaseType'),
-
-    setPhase: function(phaseId, gamePlayer) {
+    setPhase(phaseId, gamePlayer) {
+        debugger;
         if (this.phaseId === phaseId) {
             return;
         }
+
         this.phaseId = phaseId;
         this.gamePlayer = gamePlayer;
         this._handleNewPhase(phaseId);
     },
 
-    _handleNewPhase: function(phaseId) {
+    _handleNewPhase(phaseId) {
         this._getPhaseAndCommandsPromise(phaseId).then((phaseAndCommands) => {
-            console.log('phaseAndCommands', phaseAndCommands);
-            console.log('gamePhaseType', phaseAndCommands.phase.get('gamePhaseType') );
-
-            if (phaseAndCommands.phase.get('gamePhaseType') === 'INITIAL_DRAW') {
+            if (phaseAndCommands.gamePhase.get('gamePhaseType') === 'INITIAL_DRAW') {
                 this._dispatchNewCommand('DRAW_CARD', phaseAndCommands);
                 this._dispatchNewCommand('END_PHASE', phaseAndCommands);
             }
 
-            // if (phaseType === 'GATHER_RESOURCE') {
-            //     this.dispatchNewCommand('GATHER_RESOURCE');
-            //     this.dispatchNewCommand('END_PHASE');
-            // }
 
+            if (phaseAndCommands.gamePhase.get('gamePhaseType') === 'GATHER') {
+                this._dispatchNewCommand('GATHER_ENERGY', phaseAndCommands);
+                this._dispatchNewCommand('END_PHASE', phaseAndCommands);
+            }
+
+        });
+    },
+
+    _getPhaseAndCommandsPromise(gamePhaseId) {
+        const gamePhasePromise = this.get('store').findRecord('gamePhase', gamePhaseId);
+
+        return gamePhasePromise.then(gamePhase => {
+            const gameCommandsPromises = gamePhase.get('gameCommands')
+                .map(gameCommand =>  this.get('store').findRecord('gameCommand', gameCommand.get('id')));
+            return Promise.all(gameCommandsPromises).then(gameCommands => {
+                return {gamePhase, gameCommands}
+            });
         });
     },
 
     _dispatchNewCommand(commandType, phaseAndCommands) {
-        const dispatchedCommandTypes = phaseAndCommands.commands.map(command => command.get('gameCommandType'));
+        const {gamePhase, gameCommands} = phaseAndCommands;
+
+        const playersCommands = gameCommands.filter(command => command.get('gamePlayer.id') === this.gamePlayer.get('id'));
+        const dispatchedCommandTypes = playersCommands.map(command => command.get('gameCommandType'));
         const commandAlreadyDispatched = dispatchedCommandTypes.includes(commandType);
+
         if (commandAlreadyDispatched) {
             return;
         }
+
         this.get('commander').enqueueCommand({
             gameCommandType: commandType,
-            gamePhase: phaseAndCommands.phase,
-            resolved: false,
-            game: phaseAndCommands.phase.get('game'),
-            gamePlayer: this.gamePlayer
-        });
-    },
-
-    _getPhaseAndCommandsPromise: function(gamePhaseId) {
-        const gamePhasePromise = this.get('store').findRecord('gamePhase', gamePhaseId);
-
-        return gamePhasePromise.then(gamePhase => {
-            const gameCommandsPromises = gamePhase.get('gameCommands').map(gameCommand => {
-                return this.get('store').findRecord('gameCommand', gameCommand.get('id'));
-            });
-            /*eslint no-undef: "off"*/
-            return Promise.all(gameCommandsPromises).then(gameCommands => {
-                return {
-                    phase: gamePhase,
-                    commands: gameCommands
-                };
-            });
+            gamePhase: gamePhase,
+            game: gamePhase.get('game'),
+            gamePlayer: this.gamePlayer,
+            resolved: false
         });
     }
 });

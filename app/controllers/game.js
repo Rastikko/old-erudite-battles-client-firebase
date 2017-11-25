@@ -21,12 +21,17 @@ export default Ember.Controller.extend({
         });
     }),
 
+    // TODO: this makes Gaston to cry
+    onPhaseType: Ember.on('init', Ember.observer('model.gamePhase.gamePhaseType', function() {
+        this.get('phaseType');
+    })),
+
     phaseType: Ember.computed('model.gamePhase.gamePhaseType', 'heroPlayer', function() {
         if (!this.get('heroPlayer') || this.get('model.gamePhase.gamePhaseType')) {
             return;
         }
         // this side effect will trigger new automatic commands per phase
-        this.get('phaser').setPhase(this.get('model.gamePhase.id'));
+        this.get('phaser').setPhase(this.get('model.gamePhase.id'), this.get('heroPlayer'));
         return this.get('model.gamePhase.gamePhaseType');
     })
 });
